@@ -75,7 +75,6 @@ export function addRole(
   );
 }
 
-
 /**
  * Used to remove a role from an array
  * @param {CommandoMessage} msg Message instance
@@ -137,7 +136,7 @@ export function listRoles(
   if (!array.length) {
     return msg.say(
       `The list is currently emtpy! use ${array}add <role>`
-      + 'to add a role to the whitelist!',
+      + 'to add a role to the list!',
     );
   }
 
