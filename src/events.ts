@@ -18,14 +18,14 @@ export function onMemberUpdate(_: GuildMember, mem: GuildMember) {
   const check = mem.roles.cache.map((role) => role.id);
 
   // Loop over member roles to check if they have whitelisted roles
-  const foundWhitelist = check.some(CONFIG.t3roleID.includes);
+  const foundWhitelist = check.some((whitelistRoleId) => CONFIG.t3roleID.includes(whitelistRoleId));
 
   if (foundWhitelist) {
     return;
   }
 
   // Loop over member roles to check if they have colour roles
-  const foundColourRole = check.some(CONFIG.roles.includes);
+  const foundColourRole = check.some((colorRoleId) => CONFIG.roles.includes(colorRoleId));
 
   if (foundColourRole) {
     CONFIG.roles.forEach(async (role) => {

@@ -16,7 +16,7 @@ async function main() {
   bot.on('guildMemberUpdate', onMemberUpdate);
 
   bot.registry.registerGroups([
-    ['whitelist'],
+    ['role manager'],
   ]).registerDefaults()
     .registerCommandsIn(
       path.join(__dirname, 'commands'),
