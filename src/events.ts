@@ -37,3 +37,4 @@ export function onMemberUpdate(_: GuildMember, mem: GuildMember) {
     });
   }
 }
+

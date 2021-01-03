@@ -51,13 +51,15 @@ export function addRole(
     return msg.reply('That\' not a role! ❌');
   }
 
+  const RoleID: string = role.id;
+
   // Checks if the role they want to add is already added
-  if (array.includes(role.id)) {
+  if (array.includes(RoleID)) {
     return msg.say(`\`${role.name}\` is already on the list! ❌`);
   }
 
   // Checks if the role they want to add is already on the "removal" list
-  if (array2.includes(role.id)) {
+  if (array2.includes(RoleID)) {
     return msg.say(
       `\`${role.name}\` is on the other role list, adding this to the`
     + ' current list would break the system! ❌',
@@ -65,14 +67,14 @@ export function addRole(
   }
 
   // Otherwise finally add it to the list
-  array.push(role.id);
-  console.log(Config.saveConfig());
+  array.push(RoleID);
   Config.saveConfig();
 
   return msg.say(
     `I have added the role \`${role.name}\` to the list! ✅`,
   );
 }
+
 
 /**
  * Used to remove a role from an array

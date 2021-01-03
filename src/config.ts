@@ -1,5 +1,6 @@
 import fs from 'fs';
 import { safeDump, safeLoad } from 'js-yaml';
+import { CONFIG } from './globals';
 
 /**
  * This represents the config.yml
@@ -47,10 +48,6 @@ export default class Config {
      * Safe the config to the config.yml default location
      */
     public static saveConfig() {
-      const doc = safeLoad(fs.readFileSync(
-        Config.LOCATION,
-        'utf8',
-      )) as Config;
-      fs.writeFileSync(Config.LOCATION, safeDump(doc));
+      fs.writeFileSync(Config.LOCATION, safeDump(CONFIG));
     }
 }
