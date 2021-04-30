@@ -1,8 +1,10 @@
 import {
   Guild,
+  GuildMember,
   Message,
   MessageEmbed,
 } from 'discord.js';
+import { CONFIG } from './globals';
 import { CommandoMessage } from 'discord.js-commando';
 import Config from './config';
 
@@ -156,4 +158,31 @@ export function listRoles(
     const roles = roleList.join('');
     return msg.say(`listed roles:\n ${roles}`);
   }
+}
+
+export async function validate(member: GuildMember): Promise<void> {
+  const check = member.roles.cache.map((role) => role.id);
+
+  // Loop over member roles to check if they have whitelisted roles
+  const foundWhitelist = check.some((whitelistRoleId) => {
+    return CONFIG.t3roleID.includes(whitelistRoleId)
+  });
+
+  if (foundWhitelist) {
+    return;
+  }
+
+  // Loop over member roles to check if they have colour roles
+  const tasks = [];
+
+  for (let i = 0; i < CONFIG.roles.length; i += 1) {
+    const colorRole = CONFIG.roles[i];
+    let task;
+    if (member.roles.cache.has(colorRole)) {
+      task = member.roles.remove(colorRole, "Doesn't have required role");
+      tasks.push(task);
+    }
+  }
+
+  await Promise.all(tasks);
 }
