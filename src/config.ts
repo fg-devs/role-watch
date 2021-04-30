@@ -19,6 +19,8 @@ export default class Config {
 
     public readonly roles: string[];
 
+    public readonly guildID: string;
+
     private static LOCATION = './config.yml';
 
     constructor() {
@@ -26,6 +28,7 @@ export default class Config {
       this.prefix = '';
       this.t3roleID = [''];
       this.roles = [''];
+      this.guildID = '';
     }
 
     /**
@@ -35,6 +38,7 @@ export default class Config {
       if (!fs.existsSync(Config.LOCATION)) {
         throw new Error('Please create a config.yml');
       }
+
       const fileContents = fs.readFileSync(
         Config.LOCATION,
         'utf-8',

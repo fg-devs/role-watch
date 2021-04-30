@@ -1,40 +1,49 @@
-import { Client, GuildMember } from 'discord.js';
+import { Client, GuildMember, PartialGuildMember } from 'discord.js';
 import { CONFIG } from './globals';
+import { validate } from './utils';
 
-export function onReady(bot: Client) {
+export async function onReady(bot: Client): Promise<void> {
+  let guild;
+  
   if (!bot.user) {
     return;
   }
+  
   console.log(`${bot.user.tag} is online!`);
-  bot.user.setActivity('your colour(s)', { type: 'WATCHING' });
+  await bot.user.setActivity('your colour(s)', { type: 'WATCHING' });
+
+  try {
+    guild = await bot.guilds.fetch(CONFIG.guildID);
+  } catch (e) {
+    console.log(`Failed to get guild from config "${CONFIG.guildID}"`);
+    return;
+  }
+
+  const members = await guild.members.fetch();
+  const tasks = [];
+
+  for (let member of members.values()) {
+    let task = validate(member);
+    tasks.push(task);
+  }
+
+  await Promise.all(tasks);
 }
 
 /**
  * Triggered when a member updates their profile info
- * @param {GuildMember} _ Old iteration of the member's profile (not needed)
+ * @param {PartialGuildMember | GuildMember} _ (not needed)
  * @param {GuildMember} mem New iteration of the member's profile
  */
-export function onMemberUpdate(_: GuildMember, mem: GuildMember) {
-  const check = mem.roles.cache.map((role) => role.id);
-
-  // Loop over member roles to check if they have whitelisted roles
-  const foundWhitelist = check.some((whitelistRoleId) => CONFIG.t3roleID.includes(whitelistRoleId));
-
-  if (foundWhitelist) {
+export async function onMemberUpdate(
+  _: PartialGuildMember | GuildMember,
+  mem: GuildMember,
+): Promise<void> {
+  // check if this guild is one of the targets
+  if (mem.guild.id !== CONFIG.guildID) {
     return;
   }
 
-  // Loop over member roles to check if they have colour roles
-  const foundColourRole = check.some((colorRoleId) => CONFIG.roles.includes(colorRoleId));
-
-  if (foundColourRole) {
-    CONFIG.roles.forEach(async (role) => {
-      const memberRoles = mem.roles.cache;
-      const invalidRole = memberRoles.get(role);
-      if (invalidRole) {
-        await mem.roles.remove(role, 'Doesn\'t have required role');
-      }
-    });
-  }
+  await validate(mem);
 }
 

@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Floor-Gang/color-roles.git"
+    "url": "git+https://github.com/NewCircuit/color-roles.git"
   },
-  "author": "Floor Gang <https://github.com/Floor-Gang>",
+  "author": "Floor Gang <https://github.com/NewCircuit>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Floor-Gang/color-roles/issues"
+    "url": "https://github.com/NewCircuit/color-roles/issues"
   },
-  "homepage": "https://github.com/Floor-Gang/color-roles#readme",
+  "homepage": "https://github.com/NewCircuit/color-roles#readme",
   "dependencies": {
     "discord.js": "^12.5.1",
     "discord.js-commando": "github:discordjs/Commando",

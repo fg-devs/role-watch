@@ -1,4 +1,5 @@
 token: 'TOKEN_HERE_NOW'
 prefix: 'PREFIX'
-t3roleID: ['ROLE_ID FOR WHITELISTED ROLES']
-roles: ['ARRAY_OF_ROLES_TO_BE_REMOVED']
+t3roleID: []
+roles: []
+guildID: ''
